@@ -22,14 +22,25 @@ function highlightCheckedOption(e) {
 
 //function for getting the value of the selected option
 function getMatchingCatsArray() {
-  //check if gifOnly checkbox is checked
-  const isGifEnabled = gifOnly.checked;
-  console.log(isGifEnabled);
+  //get the selected radio emotion
+  if (document.querySelector('input[type="radio"]:checked')) {
+    const selectedEmotion = document.querySelector(
+      'input[type="radio"]:checked'
+    ).value;
+    //check if gifOnly checkbox is checked
+    const isGifEnabled = gifOnly.checked;
 
-  const radioChecked = document.querySelector('input[type="radio"]:checked');
-
-  if (radioChecked) {
-    console.log(radioChecked.value);
+    const selectedCatsArray = catsData.filter((cat) => {
+      if (isGifEnabled) {
+        //filter the cats with the same emotion and check if isGif is enabled
+        return cat.emotionTags.includes(selectedEmotion) && cat.isGif;
+      } else {
+        //default return
+        return cat.emotionTags.includes(selectedEmotion);
+      }
+    });
+    //return the selectedCatsArray when the function is called
+    return selectedCatsArray;
   }
 }
 
