@@ -5,10 +5,16 @@ import { catsData } from "./data.js";
 const emotionRadios = document.querySelector("#emotion-radios");
 const getImgBtn = document.querySelector("#get-image-btn");
 const gifOnly = document.querySelector("#gifs-only-option");
+const memeModal = document.querySelector("#meme-modal");
+const memeModalInner = document.querySelector("#meme-modal-inner");
+const closeModalBtn = document.querySelector("#meme-modal-close-btn");
 
 //Listening for event and trigger the function
 emotionRadios.addEventListener("change", highlightCheckedOption);
-getImgBtn.addEventListener("click", getMatchingCatsArray);
+
+closeModalBtn.addEventListener("click", closeModal);
+
+getImgBtn.addEventListener("click", renderCat);
 
 //function for highligthing the selected option
 function highlightCheckedOption(e) {
@@ -18,6 +24,32 @@ function highlightCheckedOption(e) {
   }
 
   document.getElementById(e.target.id).parentElement.classList.add("highlight");
+}
+
+function closeModal() {
+  memeModal.style.display = "none";
+}
+
+function renderCat() {
+  const catObject = getSingleCatObject();
+
+  memeModalInner.innerHTML = `<img 
+  class="cat-img" 
+  src="./images/${catObject.image}"
+  alt="${catObject.alt}"
+  >`;
+  memeModal.style.display = "flex";
+}
+
+function getSingleCatObject() {
+  const catsArray = getMatchingCatsArray();
+  const randomObject = Math.floor(Math.random() * catsArray.length);
+
+  if (catsArray.length === 1) {
+    return catsArray[0];
+  } else {
+    return catsArray[randomObject];
+  }
 }
 
 //function for getting the value of the selected option
